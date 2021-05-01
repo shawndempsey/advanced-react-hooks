@@ -6,7 +6,7 @@ import * as React from 'react'
 function MessagesDisplay({messages}) {
   const containerRef = React.useRef()
   // 🐨 replace useEffect with useLayoutEffect
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     containerRef.current.scrollTop = containerRef.current.scrollHeight
   })
 
@@ -20,22 +20,6 @@ function MessagesDisplay({messages}) {
       ))}
     </div>
   )
-}
-
-// this is to simulate major computation/big rendering tree/etc.
-function sleep(time = 0) {
-  const wakeUpTime = Date.now() + time
-  while (Date.now() < wakeUpTime) {}
-}
-
-function SlooooowSibling() {
-  // try this with useLayoutEffect as well to see
-  // how it impacts interactivity of the page before updates.
-  React.useEffect(() => {
-    // increase this number to see a more stark difference
-    sleep(300)
-  })
-  return null
 }
 
 function App() {
@@ -57,7 +41,6 @@ function App() {
       </div>
       <hr />
       <MessagesDisplay messages={messages} />
-      <SlooooowSibling />
     </div>
   )
 }
